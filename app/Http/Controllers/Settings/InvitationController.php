@@ -52,7 +52,7 @@ class InvitationController extends Controller
                 ->where('owner_id', $user->id)
                 ->findOrFail($teamId);
 
-        if ($team->invitations()->where('email', $request->email)->exists()) {
+        if ($team->invitations()->where('email', $request->email)->groupBy('created_at')->exists()) {
             return response()->json(['email' => 'That user is already invited to the team.'], 422);
         }
 
